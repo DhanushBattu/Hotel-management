@@ -18,6 +18,8 @@ import {
   Moon
 } from 'lucide-react';
 import { Button } from './ui/Button';
+import { NotificationBell } from './NotificationBell';
+import { ToastNotification } from './ToastNotification';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -62,7 +64,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Toast Notifications */}
+      <ToastNotification />
+      
       {/* Overlay */}
       {isSidebarOpen && (
         <div
@@ -159,18 +164,22 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
                 <h1 className="text-xl lg:text-2xl font-semibold text-gray-900 dark:text-gray-50">{title}</h1>
               )}
             </div>
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'light' ? (
-                <Moon className="w-5 h-5 text-gray-600 dark:text-gray-100" />
-              ) : (
-                <Sun className="w-5 h-5 text-gray-100" />
-              )}
-            </button>
+            <div className="flex items-center gap-2">
+              {/* Notification Bell */}
+              <NotificationBell />
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {theme === 'light' ? (
+                  <Moon className="w-5 h-5 text-gray-600 dark:text-gray-100" />
+                ) : (
+                  <Sun className="w-5 h-5 text-gray-100" />
+                )}
+              </button>
+            </div>
           </div>
         </header>
         <div className="flex-1 overflow-auto p-4 lg:p-8">

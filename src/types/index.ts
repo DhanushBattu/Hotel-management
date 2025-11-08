@@ -253,3 +253,20 @@ export interface TopSellingItem {
   quantitySold: number;
   revenue: number;
 }
+
+// Notification Types
+export type NotificationType = 'order-ready' | 'order-bumped' | 'new-order' | 'info';
+
+export interface Notification {
+  id: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  orderId?: string;
+  orderNumber?: string;
+  tableName?: string;
+  tokenNumber?: string;
+  targetRole?: UserRole;
+  read: boolean;
+  createdAt: Date;
+}

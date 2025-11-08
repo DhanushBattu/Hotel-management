@@ -4,13 +4,17 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import type { KDSTicket, KitchenStation } from '../types';
 import { mockKDSTickets } from '../data/mockData';
-import { Clock, CheckCircle, Pause, AlertCircle } from 'lucide-react';
+import { Clock, CheckCircle, Pause, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
+import { useNotificationStore } from '../store/notificationStore';
+import { useNavigate } from 'react-router-dom';
 
 export const KDS: React.FC = () => {
   const [selectedStation, setSelectedStation] = useState<KitchenStation>('HOT');
   const [tickets, setTickets] = useState<KDSTicket[]>(mockKDSTickets);
   const { user, logout } = useAuthStore();
+  const { addNotification } = useNotificationStore();
+  const navigate = useNavigate();
 
   const stations: KitchenStation[] = ['HOT', 'COLD', 'BAR', 'DESSERT'];
 
@@ -31,13 +35,29 @@ export const KDS: React.FC = () => {
   const filteredTickets = tickets.filter((ticket) => ticket.station === selectedStation && ticket.status !== 'bumped');
 
   const handleBump = (ticketId: string) => {
+    const ticket = tickets.find((t) => t.id === ticketId);
+    
     setTickets((prevTickets) =>
-      prevTickets.map((ticket) =>
-        ticket.id === ticketId
-          ? { ...ticket, status: 'bumped', bumpedAt: new Date() }
-          : ticket
+      prevTickets.map((t) =>
+        t.id === ticketId
+          ? { ...t, status: 'bumped', bumpedAt: new Date() }
+          : t
       )
     );
+
+    // Send notification to waiter
+    if (ticket) {
+      addNotification({
+        type: 'order-bumped',
+        title: 'Order Ready',
+        message: `Order ${ticket.orderNumber} for ${ticket.tableName || ticket.tokenNumber} is ready to serve`,
+        orderId: ticket.orderId,
+        orderNumber: ticket.orderNumber,
+        tableName: ticket.tableName,
+        tokenNumber: ticket.tokenNumber,
+        targetRole: 'waiter',
+      });
+    }
   };
 
   const handleHold = (ticketId: string) => {
@@ -76,6 +96,10 @@ export const KDS: React.FC = () => {
               <p className="text-sm text-gray-400">Logged in as</p>
               <p className="font-medium">{user?.name}</p>
             </div>
+            <Button variant="ghost" onClick={() => navigate(-1)} className="text-white">
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back
+            </Button>
             <Button variant="ghost" onClick={logout} className="text-white">
               Logout
             </Button>
