@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { Notification, NotificationType, UserRole } from '../types';
+import type { Notification, UserRole } from '../types';
+// import type { NotificationType } from '../types'; // Unused - commented for future use
 
 interface NotificationState {
   notifications: Notification[];

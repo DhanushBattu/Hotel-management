@@ -5,7 +5,7 @@ import { CheckCircle, X } from 'lucide-react';
 
 export const ToastNotification: React.FC = () => {
   const { user } = useAuthStore();
-  const { notifications, markAsRead, getNotificationsForRole } = useNotificationStore();
+  const { markAsRead, getNotificationsForRole } = useNotificationStore();
 
   const userNotifications = user ? getNotificationsForRole(user.role) : [];
   const latestUnread = userNotifications.find((n) => !n.read);
