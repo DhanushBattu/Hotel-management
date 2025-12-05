@@ -20,6 +20,7 @@ import {
 import { Button } from './ui/Button';
 import { NotificationBell } from './NotificationBell';
 import { ToastNotification } from './ToastNotification';
+import { Chatbot } from './Chatbot';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -186,6 +187,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
           {children}
         </div>
       </main>
+      <Chatbot />
     </div>
   );
 };
