@@ -145,7 +145,7 @@ export const KDS: React.FC = () => {
             {filteredTickets.map((ticket) => (
               <Card
                 key={ticket.id}
-                className={`bg-gray-800 border-2 ${getTicketBorderColor(ticket.elapsedMinutes)} ${
+                className={`!bg-gray-800 border-2 ${getTicketBorderColor(ticket.elapsedMinutes)} ${
                   ticket.status === 'hold' ? 'opacity-60' : ''
                 }`}
               >
@@ -211,7 +211,7 @@ export const KDS: React.FC = () => {
                     size="lg"
                     variant="ghost"
                     onClick={() => handleHold(ticket.id)}
-                    className="text-white border border-gray-600"
+                    className="!text-white border border-gray-600 hover:!bg-gray-700"
                   >
                     <Pause className="w-5 h-5" />
                   </Button>

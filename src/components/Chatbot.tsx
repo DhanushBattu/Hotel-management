@@ -132,7 +132,6 @@ export const Chatbot: React.FC = () => {
 
   const generateResponse = (input: string): string => {
     const lowerInput = input.toLowerCase().trim();
-    const words = lowerInput.split(/\s+/);
     
     // Check for greeting
     if (/^(hi|hello|hey|greetings|good\s*(morning|afternoon|evening))[!?.]?$/i.test(lowerInput)) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import { 
@@ -40,9 +40,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   }, [theme]);
 
   // Close sidebar on route change
+  const { pathname } = useLocation();
   useEffect(() => {
     setIsSidebarOpen(false);
-  }, [location.pathname]);
+  }, [pathname]);
 
   const handleLogout = () => {
     logout();
@@ -106,7 +107,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <nav className="flex-1 p-4 space-y-1">
           {allowedNavItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path;
+            const isActive = pathname === item.path;
             return (
               <button
                 key={item.path}

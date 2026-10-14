@@ -7,15 +7,15 @@ import { Modal } from '../components/ui/Modal';
 import { mockTables, mockMenuItems, generateOrderNumber } from '../data/mockData';
 import { useOrderStore } from '../store/orderStore';
 import { useAuthStore } from '../store/authStore';
-import type { Table, MenuItem, OrderItem } from '../types';
-import { Plus, Minus, Send, Leaf, Drumstick } from 'lucide-react';
+import type { Table, MenuItem, OrderItem, SelectedModifier } from '../types';
+import { Plus, Minus, Send, Leaf, Drumstick, UtensilsCrossed } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export const WaiterDashboard: React.FC = () => {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [modifierModal, setModifierModal] = useState<{ item: MenuItem; isOpen: boolean } | null>(null);
-  const [selectedModifiers, setSelectedModifiers] = useState<any[]>([]);
+  const [selectedModifiers, setSelectedModifiers] = useState<SelectedModifier[]>([]);
   
   const { currentOrder, addItemToOrder, removeItemFromOrder, updateItemQuantity, submitOrder } = useOrderStore();
   const { user } = useAuthStore();
@@ -48,7 +48,7 @@ export const WaiterDashboard: React.FC = () => {
     }
   };
 
-  const addItemDirectly = (menuItem: MenuItem, modifiers: any[]) => {
+  const addItemDirectly = (menuItem: MenuItem, modifiers: SelectedModifier[]) => {
     const orderItem: OrderItem = {
       id: `item-${Date.now()}`,
       menuItemId: menuItem.id,
@@ -144,7 +144,7 @@ export const WaiterDashboard: React.FC = () => {
               </div>
 
               {/* Category Tabs */}
-              <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+              <div className="flex gap-2 mb-4 overflow-x-auto pb-2 shrink-0">
                 {categories.map((category) => (
                   <button
                     key={category}
@@ -169,10 +169,16 @@ export const WaiterDashboard: React.FC = () => {
                     className={`relative ${!item.isAvailable ? 'opacity-50' : ''}`}
                   >
                     <div className="aspect-[4/3] relative mb-3">
+                      {/* Placeholder shows if the photo can't load */}
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center">
+                        <UtensilsCrossed className="w-10 h-10 text-emerald-400" />
+                      </div>
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover rounded-lg"
+                        loading="lazy"
+                        onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
+                        className="relative w-full h-full object-cover rounded-lg"
                       />
                       <div className="absolute top-2 left-2">
                         {item.foodType === 'veg' ? (

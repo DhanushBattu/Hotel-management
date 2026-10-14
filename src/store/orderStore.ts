@@ -24,7 +24,7 @@ export const useOrderStore = create<OrderState>((set) => ({
              JSON.stringify(i.selectedModifiers) === JSON.stringify(item.selectedModifiers)
     );
 
-    let updatedItems = [...(currentOrder.items || [])];
+    const updatedItems = [...(currentOrder.items || [])];
     
     if (existingItemIndex !== undefined && existingItemIndex >= 0) {
       updatedItems[existingItemIndex] = {
