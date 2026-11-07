@@ -61,6 +61,9 @@ database/            MySQL schema and setup guide
 docs/                Setup and deployment guides, screenshots
 ```
 
+## Contributors
+- [Rushil242](https://github.com/Rushil242): interactive FAQ chatbot
+
 ## Roadmap
 - Connect the frontend to the Express + MySQL API
 - Live kitchen updates over WebSockets
